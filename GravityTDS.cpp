@@ -223,5 +223,6 @@ void GravityTDS::customCalibrate(float val)
   if((rawECsolution>0) && (rawECsolution<2000) && (KValueTemp>0.25) && (KValueTemp<4.0))
   {
       kValue =  KValueTemp;
+      EEPROM_write(kValueAddress, kValue);
   }
 }
