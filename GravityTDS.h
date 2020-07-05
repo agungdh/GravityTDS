@@ -38,6 +38,7 @@ public:
     float getKvalue(); 
     float getTdsValue();
     float getEcValue();
+    void customCalibrate(float val);
 
 private:
     int pin;

@@ -22,7 +22,7 @@
 
 GravityTDS::GravityTDS()
 {
-    this->pin = A1;
+    this->pin = A0;
     this->temperature = 25.0;
     this->aref = 5.0;
     this->adcRange = 1024.0;
@@ -210,4 +210,18 @@ void GravityTDS::ecCalibration(byte mode)
         }
         break;
     }
+}
+
+void GravityTDS::customCalibrate(float val)
+{
+  float KValueTemp,rawECsolution;
+
+  rawECsolution = val/(float)(TdsFactor);
+  rawECsolution = rawECsolution*(1.0+0.02*(temperature-25.0));
+
+  KValueTemp = rawECsolution/(133.42*voltage*voltage*voltage - 255.86*voltage*voltage + 857.39*voltage);  //calibrate in the  buffer solution, such as 707ppm(1413us/cm)@25^c
+  if((rawECsolution>0) && (rawECsolution<2000) && (KValueTemp>0.25) && (KValueTemp<4.0))
+  {
+      kValue =  KValueTemp;
+  }
 }
